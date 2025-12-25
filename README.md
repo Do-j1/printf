@@ -51,7 +51,7 @@ Include the header file in your source code:
 ```
 Compile your program and link it with the library:
 ```bash
-cc main.c -L. -lft
+cc main.c libftprintf.a
 ```
 
 
