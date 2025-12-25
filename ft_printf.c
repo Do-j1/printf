@@ -6,29 +6,29 @@
 /*   By: dal-ali <dal-ali@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 15:38:45 by dal-ali           #+#    #+#             */
-/*   Updated: 2025/12/25 15:39:21 by dal-ali          ###   ########.fr       */
+/*   Updated: 2025/12/25 15:44:16 by dal-ali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	handle_format(char spec, va_list args)
+static int	putarg(char s, va_list args)
 {
-	if (spec == 's')
+	if (s == 's')
 		return (ft_putstr(va_arg(args, char *)));
-	if (spec == 'c')
+	if (s == 'c')
 		return (ft_putchar((char)va_arg(args, int)));
-	if (spec == 'd' || spec == 'i')
+	if (s == 'd' || s == 'i')
 		return (ft_putnbr(va_arg(args, int)));
-	if (spec == 'p')
+	if (s == 'p')
 		return (ft_putpoi(va_arg(args, void *)));
-	if (spec == 'x')
+	if (s == 'x')
 		return (ft_puthexl(va_arg(args, unsigned int)));
-	if (spec == 'X')
+	if (s == 'X')
 		return (ft_puthexc(va_arg(args, unsigned int)));
-	if (spec == 'u')
+	if (s == 'u')
 		return (ft_putui(va_arg(args, unsigned int)));
-	if (spec == '%')
+	if (s == '%')
 		return (ft_putchar('%'));
 	return (0);
 }
@@ -47,7 +47,7 @@ int	ft_printf(const char *s, ...)
 		if (s[i] == '%')
 		{
 			i++;
-			con += handle_format(s[i], args);
+			con += putarg(s[i], args);
 		}
 		else
 			con += ft_putchar(s[i]);
