@@ -47,7 +47,7 @@ make re
 Include the header file in your source code:
 
 ```c
-#include "libft.h"
+#include "ft_printf.h"
 ```
 Compile your program and link it with the library:
 ```bash
