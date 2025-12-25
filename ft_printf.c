@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dal-ali <dal-ali@learner.42.tech>          #+#  +:+       +#+        */
+/*   By: dal-ali <dal-ali@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 11:19:34 by dal-ali           #+#    #+#             */
-/*   Updated: 2025/12/19 11:19:34 by dal-ali          ###   ########.fr       */
+/*   Created: 2025/12/25 15:38:45 by dal-ali           #+#    #+#             */
+/*   Updated: 2025/12/25 15:39:21 by dal-ali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
+
+static int	handle_format(char spec, va_list args)
+{
+	if (spec == 's')
+		return (ft_putstr(va_arg(args, char *)));
+	if (spec == 'c')
+		return (ft_putchar((char)va_arg(args, int)));
+	if (spec == 'd' || spec == 'i')
+		return (ft_putnbr(va_arg(args, int)));
+	if (spec == 'p')
+		return (ft_putpoi(va_arg(args, void *)));
+	if (spec == 'x')
+		return (ft_puthexl(va_arg(args, unsigned int)));
+	if (spec == 'X')
+		return (ft_puthexc(va_arg(args, unsigned int)));
+	if (spec == 'u')
+		return (ft_putui(va_arg(args, unsigned int)));
+	if (spec == '%')
+		return (ft_putchar('%'));
+	return (0);
+}
 
 int	ft_printf(const char *s, ...)
 {
@@ -26,17 +47,12 @@ int	ft_printf(const char *s, ...)
 		if (s[i] == '%')
 		{
 			i++;
-			if (s[i] == 's')
-				ft_putstr_fd(va_arg(args, char *), 1);
-			else if (s[i] == 'c')
-				ft_putchar_fd((char)va_arg(args, int), 1);
-			else if (s[i] == 'd' || s[i] == 'i')
-				ft_putnbr_fd(va_arg(args, int), 1);
+			con += handle_format(s[i], args);
 		}
 		else
-		{
-			ft_putchar_fd(s[i], 1);
-		}
+			con += ft_putchar(s[i]);
 		i++;
 	}
+	va_end(args);
+	return (con);
 }
